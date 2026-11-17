@@ -1,4 +1,4 @@
-# That's Odd! — Spot the outliers
+# That's Odd! - Spot the outliers
 
 **Hollandse Luchten Hackathon 2026 · Challenge 1 "Spot the outliers"**
 Team: Piet Hoogkamer, Kuznetsov, Shirin Janghorban
@@ -6,7 +6,7 @@ Submission: `thats_odd.R`
 
 ---
 
-## In one paragraph
+## Introduction
 
 Low-cost PM2.5 sensors produce a lot of values that look strange. Some are sensor errors (frozen readings, impossible peaks), but some are real pollution, such as fireworks, construction or a nearby fire. Our script tells these apart in two stages. First it finds weird sensors over a 3-month window: sensors with too little data, frozen sensors, sensors that don't follow their neighbours, sensors that read structurally too high or too low, and sensors that are outliers in a PCA. Then it finds weird hours in the remaining sensors. For each 2-week sliding window, three independent detectors vote, and each detector judges its residual against *local* limits. Apart from a few hard rules (frozen, out of range, impossible value), a value is only called an error when the comparison with nearby sensors supports it. Every weird sensor gets a one-line reason in `step4_weird_sensors.csv`. Every hour gets a cause label, a score, a traffic-light status and, when flagged, a confidence level in `step7_sensor_hours.csv.gz`. We also test the method itself: we plant known faults in sensors that passed step 4 and measure what share of them we find.
 
@@ -194,16 +194,6 @@ Every number in the analysis lives in the `CFG` list at the top of the script, e
 
 ---
 
-## Design choices in short
 
-- **Local, not global, limits.** A global mean ± 3 SD flags every winter smog day and misses small faults on clean days. The naive baseline in the validation shows the difference.
-- **Compare with neighbours before calling something an error.** PM2.5 spreads over a large area, so a sensor that disagrees with its neighbours is suspect, while a sensor that agrees with all of them is probably seeing real air.
-- **Three detectors vote.** Agreement gives confidence; one detector on its own only gives information.
-- **Red needs hard evidence.** This keeps false reds rare, which matters when results are shown to residents.
-- **Weird sensors are taken out before they are used as neighbours.**
-- **Missing ≠ zero; negatives are kept.** This follows the hackathon data-cleaning guidance.
-- **Everything is explainable.** A weird sensor carries a sentence with the numbers behind it. A flagged hour carries a cause label, a score, the detector votes and z-scores, and a confidence level.
-
-
-##Usage of AI
+## Usage of AI
 The team mostly brainstormed the methodology together. The majority of the code used in here is made using AI, but sketched using code instructions. The code has been checked for validity by the members.
