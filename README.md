@@ -44,7 +44,7 @@ Put these in a folder `data/` next to the script. Each file may be `.parquet`, `
 
 
 ---
-
+The data may be obtained from this Hollandse Luchten repository: **[Hollandse Luchten Hackathon 2026](https://github.com/provincieNH/HackathonHollandseLuchten/tree/main) · Challenge 1 "Spot the outliers"**
 ## The workflow
 
 
@@ -203,3 +203,7 @@ Every number in the analysis lives in the `CFG` list at the top of the script, e
 - **Weird sensors are taken out before they are used as neighbours.**
 - **Missing ≠ zero; negatives are kept.** This follows the hackathon data-cleaning guidance.
 - **Everything is explainable.** A weird sensor carries a sentence with the numbers behind it. A flagged hour carries a cause label, a score, the detector votes and z-scores, and a confidence level.
+
+
+##Usage of AI
+The team mostly brainstormed the methodology together. The majority of the code used in here is made using AI, but sketched using code instructions. The code has been checked for validity by the members.
