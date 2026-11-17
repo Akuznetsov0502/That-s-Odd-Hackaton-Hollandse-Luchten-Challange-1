@@ -8,7 +8,7 @@ Submission: `thats_odd.R` (Update 3)
 
 ## In one paragraph
 
-Low-cost PM2.5 sensors produce a lot of values that look strange. Some are sensor errors (frozen readings, moisture, drift, impossible peaks), but some are real pollution, such as fireworks, a fire, or a smog episode. Our script tells these apart in two stages. First it finds **weird sensors** over a 3-month window: sensors with too little data, frozen sensors, sensors that don't follow their neighbours, sensors that read structurally too high or too low, and sensors that are outliers in a PCA. Then it finds **weird hours** in the remaining sensors. For each 2-week sliding window, three independent detectors vote, and each detector judges its residual against *local* limits. A value is only called an error when the comparison with nearby sensors supports it, because **unusual is not the same as wrong**. Every flagged sensor and every flagged hour comes with a plain-language reason, a cause, a score, a confidence level and a traffic-light colour. We also test the method itself by planting known faults in healthy sensors and counting how many we find.
+Low-cost PM2.5 sensors produce a lot of values that look strange. Some are sensor errors (frozen readings, moisture, drift, impossible peaks), but some are real pollution, such as fireworks, a fire, or a smog episode. Our script tells these apart in two stages. First it finds **weird sensors** over a 3-month window: sensors with too little data, frozen sensors, sensors that don't follow their neighbours, sensors that read structurally too high or too low, and sensors that are outliers in a PCA. Then it finds **weird hours** in the remaining sensors. For each 2-week sliding window, three independent detectors vote, and each detector judges its residual against *local* limits. Apart from a few hard rules (frozen, out of range, impossible value), a value is only called an error when the comparison with nearby sensors supports it, because **unusual is not the same as wrong**. Every weird sensor gets a one-line reason in `step4_weird_sensors.csv`. Every hour gets a cause label, a score, a traffic-light status and, when flagged, a confidence level in `step7_sensor_hours.csv.gz`. We also test the method itself: we plant known faults in sensors that passed step 4 and measure what share of them we find.
 
 ---
 
@@ -77,7 +77,7 @@ Step 8  Change the settings and run again
 
 ### Step 1 — Load and clean
 - **One clock (UTC).** Sensor timestamps are UTC. Official stations are reported in UTC+1, so 1 hour is subtracted. KNMI timestamps mark the *end* of the hour, so 1 hour is subtracted there too.
-- GPS fixes near (0, 0) are set to missing. Each sensor gets one location: the median of its fixes. The share of hours in which a sensor was more than 200 m from that spot is recorded as `moved_share`.
+- GPS fixes near (0, 0) are set to missing. Each sensor gets one location: the median of its fixes. The share of hours in which a sensor was more than 200 m from that spot is computed as `moved_share`. It is not yet used in any rule and is not written to an output file.
 - Impossible humidity (≤ 0 or > 100 %) becomes `NA`. Duplicate sensor-hours are removed and counted.
 - Data are put in hour × sensor matrices. **Missing stays `NA`, never 0**, and negative values are kept, as the hackathon guidance asks.
 
@@ -96,6 +96,8 @@ The script uses Sasha's cluster file if `CFG$cluster_file` is set. Otherwise it 
 | 4c Structurally off | median ratio to the others ≥ 1.75× or ≤ 1/1.75× | Calibration or placement problem |
 | 4b PCA outlier | distance in the PC1/PC2 plane to the median of the *other* sensors > 3× the typical distance | Separate PCA per sensor type (≥ 5 sensors), because the two types form two groups |
 
+Each weird sensor gets **one** reason: the first rule that fires, in the order coverage → frozen → correlation → ratio → PCA. The correlation, ratio and PCA checks need at least 4 sensors left after 4a and the frozen check.
+
 Only **kept** sensors go on to step 7, and only kept sensors act as neighbours, so one broken sensor cannot make its neighbours look wrong.
 
 ### Steps 6 & 7 — Weird hours
@@ -112,7 +114,7 @@ For every kept sensor, in every 2-week window:
 6. **Context:**
    - **Area-wide event.** If the area median is ≥ 2× its window median and ≥ 20 µg/m³, the pollution is real (fireworks, smog). During such an event only frozen and out-of-range values still count as errors.
    - **Moisture.** A sensor reading too high while sensor RH ≥ 90 % or KNMI RH ≥ 95 %. The sensor's own RH is ignored when its temperature is more than 10 °C off KNMI, because then its RH is wrong too.
-7. **Sliding windows.** Each hour falls in up to two windows. The final verdict comes from the window in which the hour is most central, which reduces edge effects. `windows_flagged / windows` shows how stable the verdict is.
+7. **Sliding windows.** Each hour falls in two windows (up to three near the end of the period, where an extra window is added so the last one ends on the last hour). The final verdict comes from the window in which the hour is most central, which reduces edge effects. `windows_flagged / windows` shows how stable the verdict is.
 
 ### Scoring and colours
 
@@ -142,14 +144,14 @@ For every kept sensor, in every 2-week window:
 
 ## Validation (planted faults)
 
-For a **train** area (Haarlem) and a **test** area (Zaandam), the script plants known faults in at most 1 in 4 kept sensors (max 8). Keeping it to a quarter means the neighbours stay honest. Per sensor it plants:
+This lives in `plant_faults()` and `validate()` and is called from `main()`. It runs only for the areas set in `CFG$train_area` (Haarlem) and `CFG$test_area` (Zaandam). "Train" and "test" are labels in the output: nothing is fitted or tuned automatically on the train area. In each of these areas the script plants known faults in at most 1 in 4 kept sensors (max 8). Keeping it to a quarter means the neighbours stay honest. Per sensor it plants:
 
 - 4 spikes (+25 to +60 µg/m³)
 - 2 impossible values (300–900 µg/m³)
 - 12 frozen hours
 - 4 days of ×2.2 drift
 
-It then reruns steps 6–7 for every combination of **limit 3 or 4 SD** × **log or original scale**. For each detector, for the rules alone and for the final ensemble, it reports the detection rate per fault type and the false-alarm rate. Hours within 24 h of a planted fault are not counted as false alarms. It also reports the **false RED** rate and compares against a **naive mean ± 3 SD** baseline. The results are in `output/validation.csv`.
+It then reruns steps 6–7 for every combination of **limit 3 or 4 SD** × **log or original scale**. For each detector, for the rules alone and for the final ensemble, it reports the detection rate per fault type and the false-alarm rate. Hours within 24 h of a planted fault are not counted as false alarms. The false-alarm rate is measured on the clean hours of the **planted sensors only**, not on every sensor in the area. It also reports the **false RED** rate and compares against a **naive mean ± 3 SD** baseline. The results are in `output/validation.csv`.
 
 ---
 
@@ -201,4 +203,4 @@ Every number in the analysis lives in the `CFG` list at the top of the script, e
 - **Red needs hard evidence.** This keeps false reds rare, which matters when results are shown to residents.
 - **Weird sensors are taken out before they are used as neighbours.**
 - **Missing ≠ zero; negatives are kept.** This follows the hackathon data-cleaning guidance.
-- **Everything is explainable.** Every flag carries a sentence-level reason, a cause and a score.
+- **Everything is explainable.** A weird sensor carries a sentence with the numbers behind it. A flagged hour carries a cause label, a score, the detector votes and z-scores, and a confidence level.
