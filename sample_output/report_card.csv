@@ -1,0 +1,48 @@
+kit_id,area,sensor_type,coverage,group,reason,hours,green,yellow,red,unstable_hours,temp_wrong_share,main_issue,note
+HLL_hl_device_108,Zaandam,Nova SDS011,0.294,too little data,only 29% of hours have data (limit 75%),,,,,,,,
+HLL_hl_device_228,Zaandam,Sensirion SPS30,0.994,kept,ok,2208,0.99,0.004,0,3,0,spike,""
+HLL_hl_device_232,Zaandam,Sensirion SPS30,1,kept,ok,2208,0.997,0.002,0.001,1,0,moisture,""
+HLL_hl_device_233,Zaandam,Sensirion SPS30,1,weird,frozen in 100% of hours,,,,,,,,
+HLL_hl_device_236,Haarlem,Sensirion SPS30,0.999,weird,"far from the other Sensirion SPS30 sensors in the PCA plot (distance 32.8, typical 1.2, limit 3x)",,,,,,,,
+HLL_hl_device_238,Zaandam,Sensirion SPS30,0.643,too little data,only 64% of hours have data (limit 75%),,,,,,,,
+HLL_hl_device_243,Haarlem,Sensirion SPS30,0.978,kept,ok,2208,0.974,0.003,0.001,0,0,spike,""
+HLL_hl_device_244,Zaandam,Sensirion SPS30,0.552,too little data,only 55% of hours have data (limit 75%),,,,,,,,
+HLL_hl_device_249,Haarlem,Sensirion SPS30,0.994,kept,ok,2208,0.98,0.01,0.004,1,0,spike,""
+HLL_hl_device_254,Haarlem,Sensirion SPS30,0.999,kept,ok,2208,0.996,0.003,0,0,0,sudden drop,""
+HLL_hl_device_256,Zaandam,Sensirion SPS30,0.923,kept,ok,2208,0.913,0.01,0,1,0,spike,""
+HLL_hl_device_263,Zaandam,Sensirion SPS30,1,weird,"far from the other Sensirion SPS30 sensors in the PCA plot (distance 22.2, typical 6.6, limit 3x)",,,,,,,,
+HLL_hl_device_264,Haarlem,Sensirion SPS30,1,weird,"far from the other Sensirion SPS30 sensors in the PCA plot (distance 21.0, typical 1.2, limit 3x)",,,,,,,,
+HLL_hl_device_266,Haarlem,Sensirion SPS30,1,kept,ok,2208,0.997,0.003,0,4,0.017,sudden drop,""
+HLL_hl_device_298,Haarlem,Sensirion SPS30,0.821,kept,ok,2208,0.815,0.005,0.001,0,0.006,spike,""
+HLL_hl_device_308,Haarlem,Sensirion SPS30,0.656,too little data,only 66% of hours have data (limit 75%),,,,,,,,
+HLL_hl_device_325,Zaandam,Sensirion SPS30,0.997,kept,ok,2208,0.991,0.005,0.001,1,0,spike,""
+HLL_hl_device_332,Zaandam,Sensirion SPS30,0.265,too little data,only 27% of hours have data (limit 75%),,,,,,,,
+HLL_hl_device_351,Zaandam,Sensirion SPS30,0.002,too little data,only 0% of hours have data (limit 75%),,,,,,,,
+HLL_hl_device_360,Zaandam,Sensirion SPS30,0.004,too little data,only 0% of hours have data (limit 75%),,,,,,,,
+HLL_hl_device_363,Zaandam,Sensirion SPS30,0.999,kept,ok,2208,0.996,0.001,0.001,2,0.066,sudden drop,""
+HLL_hl_device_367,Zaandam,Sensirion SPS30,0.001,too little data,only 0% of hours have data (limit 75%),,,,,,,,
+HLL_hl_device_369,Zaandam,Sensirion SPS30,0.007,too little data,only 1% of hours have data (limit 75%),,,,,,,,
+HLL_hl_device_378,Zaandam,Sensirion SPS30,0.78,kept,ok,2208,0.772,0.008,0,1,0,drift,""
+HLL_hl_device_383,Zaandam,Sensirion SPS30,0.973,kept,ok,2208,0.962,0.01,0.002,1,0,spike,""
+HLL_hl_device_385,Zaandam,Sensirion SPS30,0.002,too little data,only 0% of hours have data (limit 75%),,,,,,,,
+HLL_hl_device_403,Zaandam,Sensirion SPS30,0.003,too little data,only 0% of hours have data (limit 75%),,,,,,,,
+HLL_hl_device_405,Zaandam,Sensirion SPS30,0.001,too little data,only 0% of hours have data (limit 75%),,,,,,,,
+HLL_hl_device_407,Haarlem,Sensirion SPS30,0.007,too little data,only 1% of hours have data (limit 75%),,,,,,,,
+HLL_hl_device_409,Zaandam,Sensirion SPS30,1,weird,"far from the other Sensirion SPS30 sensors in the PCA plot (distance 24.3, typical 6.6, limit 3x)",,,,,,,,
+HLL_hl_device_413,Zaandam,Sensirion SPS30,0.998,kept,ok,2208,0.957,0.037,0.004,7,0,spike,""
+HLL_hl_device_415,Zaandam,Sensirion SPS30,1,kept,ok,2208,0.988,0.01,0.002,1,0,spike,""
+HLL_hl_device_435,Haarlem,Sensirion SPS30,1,kept,ok,2208,0.994,0.005,0.001,0,0,spike,""
+HLL_hl_device_445,Zaandam,Sensirion SPS30,1,kept,ok,2208,0.995,0.005,0,2,0,spike,""
+HLL_hl_device_447,Haarlem,Sensirion SPS30,0,too little data,only 0% of hours have data (limit 75%),,,,,,,,
+HLL_hl_device_458,Haarlem,Sensirion SPS30,1,kept,ok,2208,0.99,0.009,0,6,0,spike,""
+HLL_hl_device_459,Haarlem,Sensirion SPS30,1,kept,ok,2208,0.99,0.009,0,1,0,spike,""
+HLL_hl_device_463,Haarlem,Sensirion SPS30,0.31,too little data,only 31% of hours have data (limit 75%),,,,,,,,
+HLL_hl_device_466,Haarlem,Sensirion SPS30,1,kept,ok,2208,0.992,0.008,0,1,0,spike,""
+HLL_hl_device_469,Haarlem,Sensirion SPS30,0.996,kept,ok,2208,0.993,0.003,0,0,0.002,sudden drop,""
+HLL_hl_device_476,Haarlem,Sensirion SPS30,1,kept,ok,2208,0.991,0.008,0.001,7,0.009,spike,""
+HLL_hl_device_481,Haarlem,Sensirion SPS30,1,kept,ok,2208,0.989,0.011,0,0,0.002,spike,""
+HLL_hl_device_496,Zaandam,Sensirion SPS30,0.202,too little data,only 20% of hours have data (limit 75%),,,,,,,,
+HLL_hl_device_503,Zaandam,Sensirion SPS30,1,weird,frozen in 100% of hours,,,,,,,,
+HLL_hl_device_524,Haarlem,Sensirion SPS30,0.354,too little data,only 35% of hours have data (limit 75%),,,,,,,,
+HLL_hl_device_538,Haarlem,Sensirion SPS30,1,kept,ok,2208,0.992,0.008,0,1,0.005,spike,""
+HLL_hl_device_541,Zaandam,Sensirion SPS30,0.997,kept,ok,2208,0.99,0.006,0.001,2,0.009,spike,""

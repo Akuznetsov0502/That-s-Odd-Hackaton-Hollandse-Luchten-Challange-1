@@ -1,0 +1,51 @@
+area,role,scale,limit,method,spike,impossible,frozen,drift,false_alarm
+Haarlem,train,log,3,STL own series (7a),83.3,100,0,3.1,0.9
+Haarlem,train,log,3,vs nearby sensors (7c),91.7,100,13.9,1.7,0.9
+Haarlem,train,log,3,local PCA (7b),91.7,100,5.6,2.1,0.8
+Haarlem,train,log,3,rules only,0,100,100,85.4,0
+Haarlem,train,log,3,FINAL (ensemble + rules),91.7,100,100,85.4,0.8
+Haarlem,train,log,3,FINAL - false RED,,,,,0.12
+Haarlem,train,original,,naive mean +/- 3 sd (whole period),8.3,100,0,0,0.1
+Haarlem,train,log,4,STL own series (7a),50,100,0,2.1,0.4
+Haarlem,train,log,4,vs nearby sensors (7c),91.7,100,2.8,1.7,0.6
+Haarlem,train,log,4,local PCA (7b),91.7,100,2.8,0.7,0.5
+Haarlem,train,log,4,rules only,0,100,100,85.4,0
+Haarlem,train,log,4,FINAL (ensemble + rules),91.7,100,100,85.4,0.7
+Haarlem,train,log,4,FINAL - false RED,,,,,0.08
+Haarlem,train,original,3,STL own series (7a),91.7,100,0,1,1.3
+Haarlem,train,original,3,vs nearby sensors (7c),91.7,100,13.9,2.4,1.1
+Haarlem,train,original,3,local PCA (7b),75,83.3,8.3,4.2,0.6
+Haarlem,train,original,3,rules only,0,100,100,85.4,0
+Haarlem,train,original,3,FINAL (ensemble + rules),91.7,100,100,85.8,1
+Haarlem,train,original,3,FINAL - false RED,,,,,0.12
+Haarlem,train,original,4,STL own series (7a),91.7,100,0,0.7,0.6
+Haarlem,train,original,4,vs nearby sensors (7c),91.7,100,8.3,1,0.8
+Haarlem,train,original,4,local PCA (7b),75,83.3,0,1.7,0.4
+Haarlem,train,original,4,rules only,0,100,100,85.4,0
+Haarlem,train,original,4,FINAL (ensemble + rules),91.7,100,100,85.4,0.9
+Haarlem,train,original,4,FINAL - false RED,,,,,0.12
+Zaandam,test,log,3,STL own series (7a),62.5,100,0,0,0.9
+Zaandam,test,log,3,vs nearby sensors (7c),62.5,100,0,1.6,0.5
+Zaandam,test,log,3,local PCA (7b),75,100,0,0.5,0.5
+Zaandam,test,log,3,rules only,12.5,100,95.7,66.3,0
+Zaandam,test,log,3,FINAL (ensemble + rules),75,100,95.7,66.3,0.5
+Zaandam,test,log,3,FINAL - false RED,,,,,0.06
+Zaandam,test,original,,naive mean +/- 3 sd (whole period),12.5,100,0,0,0.1
+Zaandam,test,log,4,STL own series (7a),62.5,100,0,0,0.3
+Zaandam,test,log,4,vs nearby sensors (7c),50,100,0,0.5,0.3
+Zaandam,test,log,4,local PCA (7b),62.5,100,0,0,0.3
+Zaandam,test,log,4,rules only,12.5,100,95.7,66.3,0
+Zaandam,test,log,4,FINAL (ensemble + rules),62.5,100,95.7,66.3,0.4
+Zaandam,test,log,4,FINAL - false RED,,,,,0.06
+Zaandam,test,original,3,STL own series (7a),75,100,0,0,1.1
+Zaandam,test,original,3,vs nearby sensors (7c),75,100,0,0,0.9
+Zaandam,test,original,3,local PCA (7b),62.5,100,0,0.5,0.6
+Zaandam,test,original,3,rules only,12.5,100,95.7,66.3,0
+Zaandam,test,original,3,FINAL (ensemble + rules),75,100,95.7,66.3,0.8
+Zaandam,test,original,3,FINAL - false RED,,,,,0.06
+Zaandam,test,original,4,STL own series (7a),75,100,0,0,0.6
+Zaandam,test,original,4,vs nearby sensors (7c),62.5,100,0,0,0.6
+Zaandam,test,original,4,local PCA (7b),50,100,0,0,0.5
+Zaandam,test,original,4,rules only,12.5,100,95.7,66.3,0
+Zaandam,test,original,4,FINAL (ensemble + rules),75,100,95.7,66.3,0.8
+Zaandam,test,original,4,FINAL - false RED,,,,,0.06
