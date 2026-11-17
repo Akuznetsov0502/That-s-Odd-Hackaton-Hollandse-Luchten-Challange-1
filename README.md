@@ -1,14 +1,14 @@
 # That's Odd! — Spot the outliers
 
 **Hollandse Luchten Hackathon 2026 · Challenge 1 "Spot the outliers"**
-Team: Piet Hoogkamer, Alexander (Sasha) Kuznetsov, Shirin Janghorban
-Submission: `thats_odd.R` (Update 3)
+Team: Piet Hoogkamer, Kuznetsov, Shirin Janghorban
+Submission: `thats_odd.R`
 
 ---
 
 ## In one paragraph
 
-Low-cost PM2.5 sensors produce a lot of values that look strange. Some are sensor errors (frozen readings, moisture, drift, impossible peaks), but some are real pollution, such as fireworks, a fire, or a smog episode. Our script tells these apart in two stages. First it finds **weird sensors** over a 3-month window: sensors with too little data, frozen sensors, sensors that don't follow their neighbours, sensors that read structurally too high or too low, and sensors that are outliers in a PCA. Then it finds **weird hours** in the remaining sensors. For each 2-week sliding window, three independent detectors vote, and each detector judges its residual against *local* limits. Apart from a few hard rules (frozen, out of range, impossible value), a value is only called an error when the comparison with nearby sensors supports it, because **unusual is not the same as wrong**. Every weird sensor gets a one-line reason in `step4_weird_sensors.csv`. Every hour gets a cause label, a score, a traffic-light status and, when flagged, a confidence level in `step7_sensor_hours.csv.gz`. We also test the method itself: we plant known faults in sensors that passed step 4 and measure what share of them we find.
+Low-cost PM2.5 sensors produce a lot of values that look strange. Some are sensor errors (frozen readings, impossible peaks), but some are real pollution, such as fireworks, a fire, or a smog episode. Our script tells these apart in two stages. First it finds weird sensors over a 3-month window: sensors with too little data, frozen sensors, sensors that don't follow their neighbours, sensors that read structurally too high or too low, and sensors that are outliers in a PCA. Then it finds weird hours in the remaining sensors. For each 2-week sliding window, three independent detectors vote, and each detector judges its residual against *local* limits. Apart from a few hard rules (frozen, out of range, impossible value), a value is only called an error when the comparison with nearby sensors supports it. Every weird sensor gets a one-line reason in `step4_weird_sensors.csv`. Every hour gets a cause label, a score, a traffic-light status and, when flagged, a confidence level in `step7_sensor_hours.csv.gz`. We also test the method itself: we plant known faults in sensors that passed step 4 and measure what share of them we find.
 
 ---
 
@@ -28,7 +28,7 @@ Rscript thats_odd.R
 
 Results are written to `output/`. The R and package versions used are saved to `output/session_info.txt` on every run.
 
-`arrow` (or `nanoparquet` as an alternative) is only needed for `.parquet` input. It is called through `requireNamespace()`, so it does not show as attached in RStudio's Packages tab. That is expected.
+`arrow` (or `nanoparquet` as an alternative) is only needed for `.parquet` input. It is called through `requireNamespace()`, so it does not show as attached in RStudio's Packages tab.
 
 ### Input files
 
@@ -41,13 +41,12 @@ Put these in a folder `data/` next to the script. Each file may be `.parquet`, `
 | `reference_measurements` | `meetlocatie_id, component, begindatumtijd, waarde` (PM2.5 rows) |
 | `reference_station_metadata.csv` | `meetlocatie_id, breedtegraad, lengtegraad` |
 | `knmi_weather_data` | `time, wsi, lat, lon, T, U, DD, FH` |
-| Sasha's cluster file *(optional)* | sensor id + one 0/1 column per cluster, or a single cluster column |
+
 
 ---
 
 ## The workflow
 
-The step numbers in the code match Piet's *Workflow* document (15 Nov).
 
 ```
 Step 1  Load & clean ──► Step 2  Pick area ──► Step 3  3-month window
@@ -79,10 +78,10 @@ Step 8  Change the settings and run again
 - **One clock (UTC).** Sensor timestamps are UTC. Official stations are reported in UTC+1, so 1 hour is subtracted. KNMI timestamps mark the *end* of the hour, so 1 hour is subtracted there too.
 - GPS fixes near (0, 0) are set to missing. Each sensor gets one location: the median of its fixes. The share of hours in which a sensor was more than 200 m from that spot is computed as `moved_share`. It is not yet used in any rule and is not written to an output file.
 - Impossible humidity (≤ 0 or > 100 %) becomes `NA`. Duplicate sensor-hours are removed and counted.
-- Data are put in hour × sensor matrices. **Missing stays `NA`, never 0**, and negative values are kept, as the hackathon guidance asks.
+- Data are put in hour × sensor matrices. **Missing stays `NA`, never 0**, and negative values are kept.
 
 ### Step 2 — Areas
-The script uses Sasha's cluster file if `CFG$cluster_file` is set. Otherwise it runs k-medoids (PAM, k = 8) on sensor location in km. Each cluster is named after the town where *most* of its sensors are, not the town nearest its centre.
+The script may use an alternative way of clustering the sensors clusters for more freeom. Simply set the `CFG$cluster_file` file to your way of clustering. Otherwise it runs k-medoids (PAM, k = 8) on sensor location in km. Each cluster is named after the town where *most* of its sensors are, not the town nearest its centre.
 
 ### Step 3 — Larger window
 `2025-10-01` to `2026-01-01` (3 months, UTC). The sensor archive ends 2025-12-31 23:00.
@@ -96,9 +95,9 @@ The script uses Sasha's cluster file if `CFG$cluster_file` is set. Otherwise it 
 | 4c Structurally off | median ratio to the others ≥ 1.75× or ≤ 1/1.75× | Calibration or placement problem |
 | 4b PCA outlier | distance in the PC1/PC2 plane to the median of the *other* sensors > 3× the typical distance | Separate PCA per sensor type (≥ 5 sensors), because the two types form two groups |
 
-Each weird sensor gets **one** reason: the first rule that fires, in the order coverage → frozen → correlation → ratio → PCA. The correlation, ratio and PCA checks need at least 4 sensors left after 4a and the frozen check.
+Each weird sensor gets one reason: the first rule that fires, in the order coverage → frozen → correlation → ratio → PCA. The correlation, ratio and PCA checks need at least 4 sensors left after 4a and the frozen check.
 
-Only **kept** sensors go on to step 7, and only kept sensors act as neighbours, so one broken sensor cannot make its neighbours look wrong.
+Only kept sensors go on to step 7, and only kept sensors act as neighbours, so one broken sensor cannot make its neighbours look wrong.
 
 ### Steps 6 & 7 — Weird hours
 For every kept sensor, in every 2-week window:
@@ -163,7 +162,7 @@ It then reruns steps 6–7 for every combination of **limit 3 or 4 SD** × **log
 | `step4b_pca_<area>.png` | PCA plot per sensor type; triangles are weird sensors, the cross is the group median |
 | `step4c_cross_<area>.png` + `_correlation.csv`, `_slope.csv` | Sensor-by-sensor correlation and slope matrices |
 | `step4_scatter_<id>.png` | Each weird sensor against the average of the kept sensors, with a robust (`MASS::rlm`) fit line |
-| `step4d_map.png` | Map: kept (green), weird (red triangle), too little data (grey) |
+| `step4d_map.png` | Map that displays points on a longitude and latitude plane: kept (green), weird (red triangle), too little data (grey) |
 | `step6_all_windows_<area>.csv.gz` | Verdict for every hour in every window |
 | `step7_sensor_hours.csv.gz` | Final verdict per sensor-hour: value, expected, z-scores, votes, cause, score, confidence, status, weather |
 | `step7_episodes.csv` | Consecutive flagged hours grouped into episodes: start, end, cause, peak, expected, agreement |
@@ -185,7 +184,7 @@ Every number in the analysis lives in the `CFG` list at the top of the script, e
 | Setting | Default | |
 |---|---|---|
 | `areas` | `c("Haarlem", "Zaandam")` | `NULL` analyses all clusters |
-| `cluster_file` | `NA` | Path to Sasha's file; `NA` uses k-medoids |
+| `cluster_file` | `NA` | Path to alternative clustering file; `NA` uses k-medoids |
 | `period_start` / `period_end` | `2025-10-01` / `2026-01-01` | The larger window (end date is exclusive) |
 | `selected_sensor` / `selected_window` | `NA` | `NA` picks the most-flagged sensor and window |
 | `window_days` / `step_days` | 14 / 7 | Set `step_days = 1` to slide day by day |
