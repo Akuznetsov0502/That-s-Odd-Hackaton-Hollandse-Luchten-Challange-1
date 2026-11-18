@@ -68,7 +68,8 @@ Step 7  WEIRD HOURS (inside each window)
         c. difference with median of neighbours ─┘
            + hard rules (frozen, out of range, impossible, drift)
            + context (area-wide event, moisture)
-        d. time-series plots with a symbol per cause   e. table with reasons
+        d. time-series plots with a symbol per cause
+        e. table with reasons
               ▼
 Step 5  Detail plots for one selected sensor        Extra: validation with planted faults
 Step 8  Change the settings and run again
