@@ -82,7 +82,7 @@ Step 8  Change the settings and run again
 - Data are put in hour × sensor matrices. **Missing stays `NA`, never 0**, and negative values are kept.
 
 ### Step 2 — Areas
-The script may use an alternative way of clustering the sensors clusters for more freeom. Simply set the `CFG$cluster_file` file to your way of clustering. Otherwise it runs k-medoids (PAM, k = 8) on sensor location in km. Each cluster is named after the town where *most* of its sensors are, not the town nearest its centre.
+The script may use an alternative way of clustering the sensors clusters for more freedom. Simply set the `CFG$cluster_file` file to your way of clustering. Otherwise it runs k-medoids (PAM, k = 8) on sensor location in km. Each cluster is named after the town where *most* of its sensors are, not the town nearest its centre.
 
 ### Step 3 — Larger window
 `2025-10-01` to `2026-01-01` (3 months, UTC). The sensor archive ends 2025-12-31 23:00.
