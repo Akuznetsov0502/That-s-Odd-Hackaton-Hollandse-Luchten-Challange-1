@@ -1,7 +1,7 @@
 # That's Odd! - Spot the outliers
 
 **Hollandse Luchten Hackathon 2026 · Challenge 1 "Spot the outliers"**
-Team: Piet Hoogkamer, Kuznetsov, Shirin Janghorban
+Team: Piet Hoogkamer,Aliaksandr Kuznetsov, Shirin Janghorban
 Submission: `thats_odd.R`
 
 ---
